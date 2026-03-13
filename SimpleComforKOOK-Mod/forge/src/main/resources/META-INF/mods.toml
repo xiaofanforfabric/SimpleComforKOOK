@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+#issueTrackerURL = ""
+license = "GNU GPL 3.0"
+
+[[mods]]
+modId = "simplecomforkook-mod"
+version = "${version}"
+displayName = "SimpleComforKOOK-Mod"
+authors = "xiaofan"
+description = '''
+简单的通讯器对接KOOKAPI
+'''
+#logoFile = ""
+
+[[dependencies.simplecomforkook-mod]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.simplecomforkook-mod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+

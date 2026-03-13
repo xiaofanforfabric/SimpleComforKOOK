@@ -1,0 +1,8 @@
+name: SimpleComforKOOK-bukkit
+version: '1.0'
+main: com.xiaofan.simpleComforKOOKBukkit.SimpleComforKOOKBukkit
+api-version: '1.16'
+folia-supported: true
+load: STARTUP
+authors: [xiaofan]
+description: 简单的通讯器对接KOOKAPI

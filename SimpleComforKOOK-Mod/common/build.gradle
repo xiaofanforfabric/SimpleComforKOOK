@@ -1,0 +1,27 @@
+architectury {
+    // 使用当前 mod 工程自己的 enabled_platforms 配置，而不是根工程
+    common project.enabled_platforms.split(',')
+}
+
+dependencies {
+    // 保持 Architectury 要求的 fabric-loader 依赖（仅用于环境注解，不直接在核心逻辑中使用）。
+    modImplementation "net.fabricmc:fabric-loader:$project.fabric_loader_version"
+
+    // 直接依赖 commen 项目（纯 Java，无 Minecraft/Fabric/Forge 依赖）
+    implementation project(':commen')
+    implementation 'io.github.jaredmdobson:concentus:1.0.2'
+}
+
+// 在 jar 任务里包含 commen 和 concentus 的类文件
+tasks.named("jar") {
+    from(project(':commen').sourceSets.main.output)
+    
+    // 包含 concentus 的类文件
+    doFirst {
+        configurations.compileClasspath.each { file ->
+            if (file.name.contains('concentus')) {
+                from(zipTree(file))
+            }
+        }
+    }
+}

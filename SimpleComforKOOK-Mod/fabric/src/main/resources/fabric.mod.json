@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "simplecomforkook-mod",
+  "version": "${version}",
+  "name": "SimpleComforKOOK-Mod",
+  "description": "简单的通讯器对接KOOKAPI",
+  "authors": ["xiaofan"],
+  "contact": {
+    "homepage": ""  },
+  "license": "GPL-3.0",
+  "icon": "assets/simplecomforkook-mod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.xiaofan.simplecomforkookMod.fabric.SimplecomforkookModFabric"
+    ],
+    "client": [
+      "com.xiaofan.simplecomforkookMod.fabric.client.SimplecomforkookModFabricClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

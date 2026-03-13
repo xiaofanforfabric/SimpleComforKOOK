@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://files.minecraftforge.net/maven/" }
+        gradlePluginPortal()
+    }
+    plugins {
+        id 'dev.architectury.loom' version '1.13-SNAPSHOT'
+        id 'architectury-plugin' version '3.4-SNAPSHOT'
+    }
+}
+
+rootProject.name = 'SimpleComforKOOK'
+include 'commen'
+include 'SimpleComforKOOK-bukkit'
+include 'SimpleComforKOOK-Mod:common'
+include 'SimpleComforKOOK-Mod:fabric'
+include 'SimpleComforKOOK-Mod:forge'
