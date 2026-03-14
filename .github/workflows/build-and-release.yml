@@ -1,0 +1,80 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'gradle'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build commen module
+      run: ./gradlew :commen:build
+      
+    - name: Build Bukkit plugin
+      run: ./gradlew :SimpleComforKOOK-bukkit:build
+      
+    - name: Build Fabric mod
+      run: ./gradlew :SimpleComforKOOK-Mod:fabric:build
+      
+    - name: Build Forge mod
+      run: ./gradlew :SimpleComforKOOK-Mod:forge:build
+      
+    - name: Collect artifacts
+      run: |
+        mkdir -p artifacts
+        cp SimpleComforKOOK-bukkit/build/libs/SimpleComforKOOK-bukkit-*.jar artifacts/ || true
+        cp SimpleComforKOOK-Mod/fabric/build/libs/simplecomforkook-mod-fabric-*.jar artifacts/ || true
+        cp SimpleComforKOOK-Mod/forge/build/libs/simplecomforkook-mod-forge-*.jar artifacts/ || true
+        ls -la artifacts/
+        
+    - name: Upload Bukkit artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SimpleComforKOOK-Bukkit
+        path: SimpleComforKOOK-bukkit/build/libs/SimpleComforKOOK-bukkit-*.jar
+        if-no-files-found: error
+        
+    - name: Upload Fabric artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SimpleComforKOOK-Fabric
+        path: SimpleComforKOOK-Mod/fabric/build/libs/simplecomforkook-mod-fabric-*.jar
+        if-no-files-found: error
+        
+    - name: Upload Forge artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SimpleComforKOOK-Forge
+        path: SimpleComforKOOK-Mod/forge/build/libs/simplecomforkook-mod-forge-*.jar
+        if-no-files-found: error
+        
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          SimpleComforKOOK-bukkit/build/libs/SimpleComforKOOK-bukkit-*.jar
+          SimpleComforKOOK-Mod/fabric/build/libs/simplecomforkook-mod-fabric-*.jar
+          SimpleComforKOOK-Mod/forge/build/libs/simplecomforkook-mod-forge-*.jar
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
